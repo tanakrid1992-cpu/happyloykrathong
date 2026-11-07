@@ -41,7 +41,7 @@ body{height:100vh;overflow:hidden;font-family:Kanit,sans-serif;color:#e2e8f0;bac
 .slot.gone{visibility:hidden}
 .p.w img{height:min(33vh,15vw)}
 .p.w .ring{height:20px}
-.p{position:relative;cursor:pointer;text-align:center;transform:translateY(-130vh);animation:fall 3s cubic-bezier(.3,.6,.3,1) forwards}
+.p{position:relative;cursor:pointer;text-align:center;transform:translateY(-130vh);animation:fall 2.4s cubic-bezier(.22,.61,.36,1) forwards}
 .p .in{position:relative;animation:bob 4s ease-in-out infinite}
 .p img{height:min(45vh,20vw);display:block;margin:auto;position:relative;z-index:1;filter:drop-shadow(0 12px 18px rgba(0,0,0,.6));transition:.35s}
 .p.c img{height:min(50vh,22.5vw)}
@@ -57,7 +57,7 @@ body{height:100vh;overflow:hidden;font-family:Kanit,sans-serif;color:#e2e8f0;bac
 .tap{position:absolute;top:-8px;left:50%;transform:translateX(-50%);z-index:2;display:flex;align-items:center;gap:3px;font-size:12px;padding:3px 9px;border-radius:99px;background:linear-gradient(135deg,var(--c1),var(--c2));color:#0b1230;font-weight:600;animation:tb 1.6s ease-in-out infinite;opacity:0;transition:.3s}
 .p:hover .tap{opacity:1}
 @keyframes tb{50%{transform:translate(-50%,-6px)}}
-@keyframes fall{0%{transform:translateY(-130vh) rotate(-6deg)}45%{transform:translateY(-50vh) rotate(5deg)}75%{transform:translateY(-10vh) rotate(-2deg)}90%{transform:translateY(2vh)}100%{transform:none}}
+@keyframes fall{from{transform:translateY(-130vh)}to{transform:none}}
 @keyframes bob{50%{transform:translateY(-7px)}}
 /* overlay */
 .ov{position:fixed;inset:0;z-index:10;pointer-events:none;background:radial-gradient(ellipse at 50% 70%,rgba(30,58,138,.5),rgba(2,6,23,.9));backdrop-filter:blur(6px);opacity:0;transition:opacity .5s}
