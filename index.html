@@ -121,7 +121,7 @@ place();addEventListener('resize',place);
 function pick(){const ks=cat=='ทั้งหมด'?Object.keys(CAPS):[cat];let k,t;do{k=ks[Math.random()*ks.length|0];t=CAPS[k][Math.random()*CAPS[k].length|0]}while(t==last);last=t;return[k,t]}
 let fly=null,src=null,busy=false;
 function open(p,s){if(busy||fly)return;busy=true;const[k,tx]=pick();src=s;const im=s.querySelector('img'),r=im.getBoundingClientRect();
- fly=document.createElement('div');fly.className='fly';fly.innerHTML='<img src="'+im.src+'"><div class="hr"></div>';
+ fly=document.createElement('div');fly.className='fly';fly.innerHTML='<img src="'+im.src+'">';
  Object.assign(fly.style,{left:r.left+'px',top:r.top+'px',height:r.height+'px'});document.body.appendChild(fly);s.classList.add('gone');ov.classList.add('show');
  const H=innerHeight*.6,W=H*r.width/r.height;
  requestAnimationFrame(()=>requestAnimationFrame(()=>{Object.assign(fly.style,{left:(innerWidth-W)/2+'px',top:(innerHeight*.96-H)+'px',height:H+'px'});fly.classList.add('on')}));
