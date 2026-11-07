@@ -10,8 +10,8 @@
 body{height:100vh;overflow:hidden;font-family:Kanit,sans-serif;color:#e2e8f0;background:radial-gradient(ellipse at 50% 110%,#1e3a8a 0%,#0b1230 45%,#05070f 100%)}
 .ms{font-family:'Material Symbols Rounded';font-size:20px;line-height:1;vertical-align:middle}
 #fx{position:fixed;inset:0;pointer-events:none}
-.bg{position:fixed;inset:0;background:url(images/bg.webp) center 40%/cover no-repeat}
-.bg::after{content:'';position:absolute;inset:0;background:linear-gradient(rgba(5,7,25,.35),transparent 30%,transparent 70%,rgba(5,7,25,.35))}
+.bg{position:fixed;inset:0;background:url(images/bg.webp) no-repeat}
+.bg::after{content:'';position:absolute;inset:0;background:linear-gradient(transparent 75%,rgba(5,7,25,.35))}
 .grid{position:fixed;left:-50%;right:-50%;bottom:0;height:42vh;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:60px 60px;transform:perspective(500px) rotateX(62deg);transform-origin:bottom;animation:gm 4s linear infinite;-webkit-mask-image:linear-gradient(transparent,#000 60%);mask-image:linear-gradient(transparent,#000 60%)}
 @keyframes gm{to{background-position:0 60px}}
 .moon{position:fixed;top:9vh;right:7vw;width:110px;height:110px;border-radius:50%;background:radial-gradient(circle at 38% 38%,#fff,#fde68a 60%,#f59e0b);box-shadow:0 0 80px 30px rgba(251,191,36,.35)}
@@ -28,7 +28,7 @@ body{height:100vh;overflow:hidden;font-family:Kanit,sans-serif;color:#e2e8f0;bac
 .dot{width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 10px #22c55e;animation:pl 1.4s infinite}
 @keyframes pl{50%{opacity:.3}}
 /* hero */
-.hero{position:fixed;top:92px;left:0;right:0;text-align:center;z-index:2}
+.hero{position:fixed;top:30vh;left:0;right:0;text-align:center;z-index:2}
 .hero .tag{background:rgba(5,10,30,.6)!important;display:inline-flex;align-items:center;gap:6px;font-size:12px;letter-spacing:2px;padding:4px 12px;border-radius:99px;border:1px solid rgba(34,211,238,.4);color:var(--c1);background:rgba(34,211,238,.08)}
 .hero h1{font-weight:800;font-size:clamp(28px,4.6vw,60px);line-height:1.15;margin-top:6px;color:#fff6d6;text-shadow:0 2px 0 #b45309,0 4px 18px rgba(0,0,0,.85),0 0 30px rgba(251,191,36,.5)}
 @keyframes gr{to{background-position:300%}}
@@ -76,15 +76,7 @@ body{height:100vh;overflow:hidden;font-family:Kanit,sans-serif;color:#e2e8f0;bac
 @media(max-width:760px){.bar .stat.h{display:none}.hero{top:80px}}
 </style></head><body>
 <div class="bg"></div><canvas id="fx"></canvas>
-<div class="bar">
- <div class="logo"><div class="ic"><span class="ms">location_city</span></div><div>Smart City Klongtumru<small>เทศบาลตำบลคลองตำหรุ</small></div></div>
- <div class="sp"></div>
- <div class="stat"><span class="dot"></span>LIVE</div>
- <div class="stat h"><span class="ms">schedule</span><span id="clk"></span></div>
- <div class="stat"><span class="ms" style="color:var(--gold)">auto_awesome</span>รับพรแล้ว <b id="cnt">0</b></div>
-</div>
 <div class="hero">
- <span class="tag"><span class="ms" style="font-size:16px">water</span>LOY KRATHONG 2026 · DIGITAL BLESSING</span>
  <h1>สุขสันต์วันลอยกระทง</h1>
 </div>
 <div class="stage" id="stage"></div>
@@ -117,7 +109,9 @@ ALLP.forEach((p,i)=>{if(i)acc+=(K[i-1]+K[i])/2;const xp=5+90*acc/tot,dd=Math.abs
  d.innerHTML='<div class="in" style="animation-delay:'+(i*.4)+'s"><div class="beam"></div><img src="'+img(p.file)+'" alt="'+(p.title||ORG)+'"><div class="ring"></div></div>';
  d.onclick=e=>{burst(e.clientX,e.clientY,40);open(p,s)};s.appendChild(d);$('stage').appendChild(s)});
 // วางเท้าตามแนวคันนาเกลือในภาพพื้นหลัง (พิกัดภาพ 1672x941: y=581 ซ้าย → 509 ขวา)
-function place(){const W=innerWidth,H=innerHeight,s=Math.max(W/1672,H/941),ox=(W-1672*s)/2,oy=(H-941*s)*.4;
+function place(){const W=innerWidth,H=innerHeight,s=Math.max(W/1672,H/941)*1.15,ox=(W-1672*s)/2,oy=0;
+ const bg=document.querySelector('.bg');bg.style.backgroundSize=1672*s+'px auto';bg.style.backgroundPosition=ox+'px 0';
+ document.querySelector('.hero').style.top=(238*s)+'px';
  document.querySelectorAll('.slot').forEach(el=>{const X=W*el.dataset.x/100,ix=(X-ox)/s,iy=581-72*ix/1672;el.style.bottom=(H-(oy+iy*s))+'px'})}
 place();addEventListener('resize',place);
 function pick(){const ks=cat=='ทั้งหมด'?Object.keys(CAPS):[cat];let k,t;do{k=ks[Math.random()*ks.length|0];t=CAPS[k][Math.random()*CAPS[k].length|0]}while(t==last);last=t;return[k,t]}
@@ -127,7 +121,7 @@ function open(p,s){if(busy||fly)return;busy=true;const[k,tx]=pick();src=s;const 
  Object.assign(fly.style,{left:r.left+'px',top:r.top+'px',height:r.height+'px'});document.body.appendChild(fly);s.classList.add('gone');ov.classList.add('show');
  const H=innerHeight*.6,W=H*r.width/r.height;
  requestAnimationFrame(()=>requestAnimationFrame(()=>{Object.assign(fly.style,{left:(innerWidth-W)/2+'px',top:(innerHeight*.96-H)+'px',height:H+'px'});fly.classList.add('on')}));
- $('who').textContent=p.title||'คณะผู้บริหารและบุคลากร';$('cnt').textContent=++cnt;
+ $('who').textContent=p.title||'คณะผู้บริหารและบุคลากร';
  setTimeout(()=>{$('bless').classList.add('on');type(tx);burst(innerWidth/2,innerHeight*.25,90);busy=false},850)}
 function close(){if(!fly||busy)return;busy=true;clearInterval(tt);$('bless').classList.remove('on');ov.classList.remove('show');fly.classList.remove('on');
  const r=src.querySelector('img').getBoundingClientRect();Object.assign(fly.style,{left:r.left+'px',top:r.top+'px',height:r.height+'px'});
@@ -135,7 +129,7 @@ function close(){if(!fly||busy)return;busy=true;clearInterval(tt);$('bless').cla
 ov.onclick=close;
 const seg=s=>s.split(' ').map(w=>'<span style="display:inline-block;white-space:nowrap">'+w+'</span>').join(' ');
 function type(t){clearInterval(tt);const c=$('cap'),a=[...t];let i=0;c.innerHTML='<span class="cur"></span>';tt=setInterval(()=>{i++;c.innerHTML=seg(a.slice(0,i).join(''))+'<span class="cur"></span>';if(i>=a.length){clearInterval(tt);setTimeout(()=>c.innerHTML=seg(t),900)}},45)}
-setInterval(()=>$('clk').textContent=new Date().toLocaleTimeString('th-TH'),1000);
+
 // particles: stars, rising lanterns, bursts
 const cv=$('fx'),x=cv.getContext('2d');let W,H,P=[],L=[],B=[];
 function rs(){W=cv.width=innerWidth;H=cv.height=innerHeight}rs();onresize=rs;
