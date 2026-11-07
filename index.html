@@ -117,7 +117,11 @@ function place(){const W=innerWidth,H=innerHeight,r=W/H,c=BG[r>=1.55?'d':r>=1?'t
   sl.forEach((el,i)=>{if(i)acc+=(K[i-1]+K[i])/2;const X=W*(.05+.9*acc/tot),ix=(X-ox)/s,iy=c.line[0]-(c.line[0]-c.line[1])*ix/c.w;set(el,X,iy*s,hh,K[i],ALLP[i].c?40:20)})}
  else c.rows.forEach((row,ri)=>{const n=row.length,hh=Math.min(W*.86/n/.4,H*c.rs[ri]);row.forEach((i,j)=>{const X=W*(.07+.86*(j+.5)/n);set(sl[i],X,c.ry[ri]*s,hh,ALLP[i].c?1.12:1,10+ri*10+(ALLP[i].c?5:0))})})}
 place();addEventListener('resize',place);
-function pick(){const ks=cat=='ทั้งหมด'?Object.keys(CAPS):[cat];let k,t;do{k=ks[Math.random()*ks.length|0];t=CAPS[k][Math.random()*CAPS[k].length|0]}while(t==last);last=t;return[k,t]}
+const ALLC=Object.values(CAPS).flat();let lastI=-1;
+function pick(){let i;do{i=Math.random()*ALLC.length|0}while(i==lastI);lastI=i;last=ALLC[i];return[i,ALLC[i]]}
+// เสียงอ่าน: ไฟล์ mp3 สร้างล่วงหน้า (audio/f = หญิง, audio/m = ชาย)
+const AU=new Audio();AU.preload='auto';
+function speak(i,g){try{AU.pause();AU.src='audio/'+(g=='f'?'f':'m')+'/'+i+'.mp3';AU.currentTime=0;AU.play().catch(()=>{})}catch(e){}}
 let fly=null,src=null,busy=false;
 function open(p,s){if(busy||fly)return;busy=true;const[k,tx]=pick();src=s;const im=s.querySelector('img'),r=im.getBoundingClientRect();
  fly=document.createElement('div');fly.className='fly';fly.innerHTML='<img src="'+im.src+'">';
@@ -125,8 +129,8 @@ function open(p,s){if(busy||fly)return;busy=true;const[k,tx]=pick();src=s;const 
  const H=innerHeight*.6,W=H*r.width/r.height;
  requestAnimationFrame(()=>requestAnimationFrame(()=>{Object.assign(fly.style,{left:(innerWidth-W)/2+'px',top:(innerHeight*.96-H)+'px',height:H+'px'});fly.classList.add('on')}));
  $('who').textContent=p.title||'คณะผู้บริหารและบุคลากร';
- setTimeout(()=>{$('bless').classList.add('on');type(tx);burst(innerWidth/2,innerHeight*.25,90);busy=false},850)}
-function close(){if(!fly||busy)return;busy=true;clearInterval(tt);$('bless').classList.remove('on');ov.classList.remove('show');fly.classList.remove('on');
+ setTimeout(()=>{$('bless').classList.add('on');type(tx);speak(k,p.g);burst(innerWidth/2,innerHeight*.25,90);busy=false},850)}
+function close(){if(!fly||busy)return;busy=true;try{AU.pause()}catch(e){}clearInterval(tt);$('bless').classList.remove('on');ov.classList.remove('show');fly.classList.remove('on');
  const r=src.querySelector('img').getBoundingClientRect();Object.assign(fly.style,{left:r.left+'px',top:r.top+'px',height:r.height+'px'});
  setTimeout(()=>{src.classList.remove('gone');fly.remove();fly=null;busy=false},900)}
 ov.onclick=close;

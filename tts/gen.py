@@ -14,3 +14,4 @@ async def main():
     for g in V: os.makedirs(f"audio/{g}",exist_ok=True)
     await asyncio.gather(*[one(i,t,g) for i,t in enumerate(caps) for g in V])
 asyncio.run(main())
+# rerun to fill missing files
