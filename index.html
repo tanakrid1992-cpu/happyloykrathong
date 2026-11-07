@@ -106,13 +106,13 @@ const tot=K.reduce((s,k,i)=>i?s+(K[i-1]+k)/2:s,0);let acc=0;
 ALLP.forEach((p,i)=>{if(i)acc+=(K[i-1]+K[i])/2;const xp=5+90*acc/tot,dd=Math.abs(i-C)/C;
  const s=document.createElement('div');s.className='slot';s.style.left=xp+'%';s.dataset.x=xp;s.style.zIndex=ALLP[i].c?40:20;s.style.setProperty('--k',K[i]);
  const d=document.createElement('div');d.className='p';d.style.animationDelay=(dd*1.6)+'s';
- d.innerHTML='<div class="in" style="animation-delay:'+(i*.4)+'s"><div class="beam"></div><img src="'+img(p.file)+'" alt="'+(p.title||ORG)+'"><div class="ring"></div></div>';
+ d.innerHTML='<div class="in" style="animation-delay:'+(i*.4)+'s"><div class="beam"></div><img src="'+img(p.file)+'" alt="'+(p.title||ORG)+'"></div>';
  d.onclick=e=>{burst(e.clientX,e.clientY,40);open(p,s)};s.appendChild(d);$('stage').appendChild(s)});
 // วางเท้าตามแนวคันนาเกลือในภาพพื้นหลัง (พิกัดภาพ 1672x941: y=581 ซ้าย → 509 ขวา)
 function place(){const W=innerWidth,H=innerHeight,s=Math.max(W/1672,H/941)*1.15,ox=(W-1672*s)/2,oy=0;
  const bg=document.querySelector('.bg');bg.style.backgroundSize=1672*s+'px auto';bg.style.backgroundPosition=ox+'px 0';
  document.querySelector('.hero').style.top=(238*s)+'px';
- document.querySelectorAll('.slot').forEach(el=>{const X=W*el.dataset.x/100,ix=(X-ox)/s,iy=581-72*ix/1672;el.style.bottom=(H-(oy+iy*s))+'px'})}
+ document.querySelectorAll('.slot').forEach(el=>{const X=W*el.dataset.x/100,ix=(X-ox)/s,iy=572-70*ix/1672;el.style.bottom=(H-(oy+iy*s))+'px'})}
 place();addEventListener('resize',place);
 function pick(){const ks=cat=='ทั้งหมด'?Object.keys(CAPS):[cat];let k,t;do{k=ks[Math.random()*ks.length|0];t=CAPS[k][Math.random()*CAPS[k].length|0]}while(t==last);last=t;return[k,t]}
 let fly=null,src=null,busy=false;
